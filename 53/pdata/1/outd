@@ -1,0 +1,16 @@
+##TITLE= Parameter file, TOPSPIN		Version 3.0
+##JCAMPDX= 5.0
+##DATATYPE= Parameter Values
+##NPOINTS= 1	$$ modification sequence number
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmrsu
+$$ 2025-02-26 10:43:39.436 +0700  nmrsu@nmr400.main.tomo.nsc.ru
+$$ /opt/topspin3.0/data/Kononenko/nmr/2025_Hollow_spheres_with_cat/53/pdata/1/outd
+$$ process /opt/topspin3.0/prog/mod/edparproc
+##$CURPLOT= <printer@BRKR>
+##$CURPRIN= <$printer@BRKR>
+##$DFORMAT= <normdp>
+##$LAYOUT= <+/layouts.ATP/1D_ws.xwp>
+##$LFORMAT= <normlp>
+##$PFORMAT= <normpl>
+##END=

@@ -1,0 +1,61 @@
+# Wed Feb 26 10:43:54 2025
+#$$PROBEID=47
+#$$PROBEINFO=25 mm MIC 19F-1H XYZ-GRD T121569/0023
+#$$PICSINFO=T121569_0023_47.par
+#
+# Active Shim Gradients
+#
+Z           		1073            
+Z2          		37425           
+Z3          		2136            
+Z4          		22284           
+Z5          		-36176          
+X           		1737            
+XZ          		11069           
+XZ2         		-17349          
+Y           		-6931           
+YZ          		37387           
+YZ2         		-14525          
+XY          		6266            
+XYZ         		16400           
+(X2-Y2)     		9479            
+(X2-Y2)Z    		-8400           
+X3          		3000            
+Y3          		-6000           
+#
+# Lock Parameter
+#
+LOCKPHASE		220.000 
+LOCKPOWER		-20.000 
+LOCKGAIN		138.300 
+LOCKDC		-75.000 
+LOCKSHIFT		7.240   
+FIELD		5642.357
+LOOPGAIN		3.900   
+LOOPTIME		0.158   
+LOOPFILTER		250.000 
+#
+IEEE64_VERSION_CODE 1
+#
+# Shim currents 
+#
+SHIM_SETTING [1 ]  520.40500000    
+SHIM_SETTING [2 ]  18525.37500000  
+SHIM_SETTING [3 ]  1123.53600000   
+SHIM_SETTING [4 ]  11721.38400000  
+SHIM_SETTING [5 ]  -19028.57600000 
+SHIM_SETTING [6 ]  913.66200000    
+SHIM_SETTING [7 ]  5822.29400000   
+SHIM_SETTING [8 ]  -9125.57400000  
+SHIM_SETTING [9 ]  4985.95400000   
+SHIM_SETTING [10]  3295.91600000   
+SHIM_SETTING [11]  -3645.70600000  
+SHIM_SETTING [12]  19665.56200000  
+SHIM_SETTING [13]  -7640.15000000  
+SHIM_SETTING [14]  0.00000000      
+SHIM_SETTING [15]  0.00000000      
+SHIM_SETTING [16]  -4418.40000000  
+SHIM_SETTING [17]  0.00000000      
+SHIM_SETTING [18]  8626.40000000   
+SHIM_SETTING [19]  1578.00000000   
+SHIM_SETTING [20]  -3156.00000000  

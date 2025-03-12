@@ -1,0 +1,98 @@
+# 1 "/opt/topspin3.0/exp/stan/nmr/lists/pp/user/FLASH3D_final_sp_npc_ref_gr"
+;ikops_type=18feb2012
+;
+;slice selective FLASH
+# 1 "/opt/topspin3.0/exp/stan/nmr/lists/pp/Avance.incl" 1
+;Avance3.incl
+;   for AV III
+;
+;avance-version (07/12/14)
+;
+;$CLASS=HighRes Incl
+;$COMMENT=
+
+
+# 165 "/opt/topspin3.0/exp/stan/nmr/lists/pp/Avance.incl"
+;$Id: Avance3.incl,v 1.9 2009/07/02 16:40:43 ber Exp $
+# 4 "/opt/topspin3.0/exp/stan/nmr/lists/pp/user/FLASH3D_final_sp_npc_ref_gr" 2
+
+# 1 "/opt/topspin3.0/exp/stan/nmr/lists/pp/Grad.incl" 1
+;Grad2.incl  -  include file for Gradient Spectroscopy
+;   for 1
+;
+;avance-version (07/01/17)
+;
+;$CLASS=HighRes Incl
+;$COMMENT=
+
+# 27 "/opt/topspin3.0/exp/stan/nmr/lists/pp/Grad.incl"
+define list<gradient> EA=<EA>
+
+
+# 31 "/opt/topspin3.0/exp/stan/nmr/lists/pp/Grad.incl"
+;$Id: Grad2.incl,v 1.13 2009/07/02 16:40:43 ber Exp $
+# 5 "/opt/topspin3.0/exp/stan/nmr/lists/pp/user/FLASH3D_final_sp_npc_ref_gr" 2
+
+# 1 "/opt/topspin3.0/exp/stan/nmr/lists/pp/De.incl" 1
+;De2.incl
+;   for AVi
+;
+;avance-version (08/02/15)
+;
+;$CLASS=HighRes Incl
+;$COMMENT=
+
+# 10 "/opt/topspin3.0/exp/stan/nmr/lists/pp/De.incl"
+define delay rde1
+
+
+"rde1=de-de1"
+# 24 "/opt/topspin3.0/exp/stan/nmr/lists/pp/De.incl"
+;for multi receive
+
+
+# 33 "/opt/topspin3.0/exp/stan/nmr/lists/pp/De.incl"
+;$Id: De2.incl,v 1.7 2009/07/02 16:40:43 ber Exp $
+# 6 "/opt/topspin3.0/exp/stan/nmr/lists/pp/user/FLASH3D_final_sp_npc_ref_gr" 2
+
+
+lgrad r2d = td2
+lgrad r3d = td1
+"l1 = ns"
+# 12 "/opt/topspin3.0/exp/stan/nmr/lists/pp/user/FLASH3D_final_sp_npc_ref_gr"
+200u setnmr0|34|32|33 ctrlgrad 0
+
+    20u 
+# 1 "mc_line 15 file /opt/topspin3.0/exp/stan/nmr/lists/pp/user/FLASH3D_final_sp_npc_ref_gr dc-measurement inserted automatically"
+
+    dccorr
+# 15 "/opt/topspin3.0/exp/stan/nmr/lists/pp/user/FLASH3D_final_sp_npc_ref_gr"
+10	10u ze
+11  d10
+20	20u 
+    d3 grad { (0) | (cnst0) | (0) }
+		10u 	grad { (0) | (0) | (0) }	
+    (p11:sp2 ph1):f1	;selective 90 degree pulse
+    d2 grad { r2d(cnst5) | (cnst11) | r3d(cnst21) } 
+    d5 grad { (0) | (cnst12) | (0) }	;read gradient on
+    (rde1 sync de1 adc ph31 syrec) (1u 1u ph30:r):f1 (de)
+    aq cpdngs17:f1	;aquisition
+		d2 grad { r2d(cnst6) | (cnst1) | r3d(cnst22) } 
+    d31 groff	;read gradient off
+  100u eosc
+  100u  wr #0 if #0 zd igrad r2d
+lo to 20 times td2
+100u rgrad r2d
+100u igrad r3d
+lo to 20 times td1
+100u rgrad r2d
+100u rgrad r3d
+100u rf #0 ipp1 ipp2 ipp31
+lo to 11 times l1
+exit
+
+# 40 "/opt/topspin3.0/exp/stan/nmr/lists/pp/user/FLASH3D_final_sp_npc_ref_gr"
+ph1 = 0
+ph2 = 1
+ph30 = 0
+ph31 = 0

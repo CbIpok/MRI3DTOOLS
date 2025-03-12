@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Просмотр бинарного файла как 1D массив</title>
+</head>
+<body>
+  <h1>Просмотр бинарного файла как 1D массив</h1>
+  <input type="file" id="fileInput">
+  <br><br>
+  <label for="typeSelect">Выберите тип:</label>
+  <select id="typeSelect">
+    <option value="Int8">Int8 (1 байт, знаковое целое)</option>
+    <option value="Uint8">Uint8 (1 байт, беззнаковое целое)</option>
+    <option value="Uint8Clamped">Uint8Clamped (1 байт, беззнаковое целое с ограничением)</option>
+    <option value="Int16">Int16 (2 байта, знаковое целое)</option>
+    <option value="Uint16">Uint16 (2 байта, беззнаковое целое)</option>
+    <option value="Int32">Int32 (4 байта, знаковое целое)</option>
+    <option value="Uint32">Uint32 (4 байта, беззнаковое целое)</option>
+    <option value="Float32">Float32 (4 байта, число с плавающей точкой)</option>
+    <option value="Float64">Float64 (8 байт, число с плавающей точкой)</option>
+    <option value="BigInt64">BigInt64 (8 байт, знаковое целое)</option>
+    <option value="BigUint64">BigUint64 (8 байт, беззнаковое целое)</option>
+    <option value="Boolean">Boolean (каждый байт: 0 = false, иначе true)</option>
+    <option value="Char">Char (каждый байт как символ латин1)</option>
+    <option value="UTF-8 String">UTF-8 String (текстовое представление всего файла)</option>
+  </select>
+  <br><br>
+  <button id="openFileButton">Открыть файл</button>
+  <h2>Вывод:</h2>
+  <pre id="output" style="white-space: pre-wrap;"></pre>
+
+  <script>
+    document.getElementById("openFileButton").addEventListener("click", function() {
+      var fileInput = document.getElementById("fileInput");
+      var file = fileInput.files[0];
+      if (!file) {
+        alert("Пожалуйста, выберите файл.");
+        return;
+      }
+      var reader = new FileReader();
+      reader.onload = function(event) {
+        var arrayBuffer = event.target.result;
+        var type = document.getElementById("typeSelect").value;
+        var output = "";
+        switch (type) {
+          case "Int8": {
+            var arr = new Int8Array(arrayBuffer);
+            output = arr.join(", ");
+            break;
+          }
+          case "Uint8": {
+            var arr = new Uint8Array(arrayBuffer);
+            output = arr.join(", ");
+            break;
+          }
+          case "Uint8Clamped": {
+            var arr = new Uint8ClampedArray(arrayBuffer);
+            output = arr.join(", ");
+            break;
+          }
+          case "Int16": {
+            var arr = new Int16Array(arrayBuffer);
+            output = arr.join(", ");
+            break;
+          }
+          case "Uint16": {
+            var arr = new Uint16Array(arrayBuffer);
+            output = arr.join(", ");
+            break;
+          }
+          case "Int32": {
+            var arr = new Int32Array(arrayBuffer);
+            output = arr.join(", ");
+            break;
+          }
+          case "Uint32": {
+            var arr = new Uint32Array(arrayBuffer);
+            output = arr.join(", ");
+            break;
+          }
+          case "Float32": {
+            var arr = new Float32Array(arrayBuffer);
+            output = arr.join(", ");
+            break;
+          }
+          case "Float64": {
+            var arr = new Float64Array(arrayBuffer);
+            output = arr.join(", ");
+            break;
+          }
+          case "BigInt64": {
+            if (typeof BigInt64Array !== 'undefined') {
+              var arr = new BigInt64Array(arrayBuffer);
+              output = Array.from(arr).join(", ");
+            } else {
+              output = "BigInt64Array не поддерживается вашим браузером.";
+            }
+            break;
+          }
+          case "BigUint64": {
+            if (typeof BigUint64Array !== 'undefined') {
+              var arr = new BigUint64Array(arrayBuffer);
+              output = Array.from(arr).join(", ");
+            } else {
+              output = "BigUint64Array не поддерживается вашим браузером.";
+            }
+            break;
+          }
+          case "Boolean": {
+            // Каждый байт интерпретируется как логическое значение
+            var arr = new Uint8Array(arrayBuffer);
+            var boolArr = Array.from(arr, byte => byte !== 0);
+            output = boolArr.join(", ");
+            break;
+          }
+          case "Char": {
+            // Каждый байт преобразуем в символ (Latin1)
+            var arr = new Uint8Array(arrayBuffer);
+            var charArr = Array.from(arr, byte => String.fromCharCode(byte));
+            output = charArr.join("");
+            break;
+          }
+          case "UTF-8 String": {
+            try {
+              var decoder = new TextDecoder("utf-8");
+              output = decoder.decode(arrayBuffer);
+            } catch(e) {
+              output = "Ошибка при декодировании UTF-8 строки: " + e;
+            }
+            break;
+          }
+          default:
+            output = "Неизвестный тип.";
+        }
+        document.getElementById("output").textContent = output;
+      };
+      reader.onerror = function() {
+        alert("Ошибка чтения файла.");
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  </script>
+</body>
+</html>
