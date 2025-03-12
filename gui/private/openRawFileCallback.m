@@ -1,4 +1,6 @@
-function openRawFileCallback(app, FilesListBox, serFilePath)
+function openRawFileCallback(app,serFilePath)
+    % Используем свойства приложения для получения списка файлов и пути к файлу ser
+    FilesListBox = app.FilesRawListBox;
     % Определяем папку, в которой находится файл
     [folderPath, ~, ~] = fileparts(serFilePath);
     [~, folderName] = fileparts(folderPath);  % Имя папки используем как имя переменной
@@ -22,7 +24,7 @@ function openRawFileCallback(app, FilesListBox, serFilePath)
 
     % Считываем размерность по оси X из файла acqus
     if existsAcqus
-        dimX = readDimensionFromFile(fileAcqus)/2;  % делим на 2, если в файле указана общая длина данных
+        dimX = readDimensionFromFile(fileAcqus) / 2;  % делим на 2, если в файле указана общая длина данных
     else
         errordlg('Файл acqus не найден', 'Ошибка');
         return;
@@ -64,7 +66,7 @@ function openRawFileCallback(app, FilesListBox, serFilePath)
     fclose(fid);
 
     % Проверяем, что число элементов чётное (так как данные должны быть парами)
-    if mod(length(dataArray),2) ~= 0
+    if mod(length(dataArray), 2) ~= 0
         errordlg('Неверный формат данных в файле ser', 'Ошибка');
         return;
     end

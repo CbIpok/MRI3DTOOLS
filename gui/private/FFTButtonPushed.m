@@ -1,10 +1,10 @@
 function FFTButtonPushed(app)
-    % Проверяем, что выбран элемент в FilesListBox
-    if isempty(app.FilesListBox.Value)
-        uialert(app.UIFigure, 'Выберите массив из списка FilesListBox.', 'Ошибка');
+    % Проверяем, что выбран элемент в FilesRawListBox
+    if isempty(app.FilesRawListBox.Value)
+        uialert(app.UIFigure, 'Выберите массив из списка FilesRawListBox.', 'Ошибка');
         return;
     end
-    selectedName = app.FilesListBox.Value;  % имя выбранного массива
+    selectedName = app.FilesRawListBox.Value;  % имя выбранного массива
     
     % Получаем новое имя из outputnameEditField
     newName = app.outputnameEditField.Value;
