@@ -1,6 +1,4 @@
-function openRawFileCallback(app,serFilePath)
-    % Используем свойства приложения для получения списка файлов и пути к файлу ser
-    FilesListBox = app.FilesRawListBox;
+function openRawFileCallback(app, serFilePath)
     % Определяем папку, в которой находится файл
     [folderPath, ~, ~] = fileparts(serFilePath);
     [~, folderName] = fileparts(folderPath);  % Имя папки используем как имя переменной
@@ -16,7 +14,6 @@ function openRawFileCallback(app,serFilePath)
     existsAcqu2s = exist(fileAcqu2s, 'file') == 2;
     existsAcqu3s = exist(fileAcqu3s, 'file') == 2;
     
-    % Если ни один из файлов с размерностями не найден, выводим сообщение об ошибке
     if ~existsAcqus && ~existsAcqu2s && ~existsAcqu3s
         errordlg('Файлы с размерностями не найдены', 'Ошибка');
         return;
@@ -61,11 +58,9 @@ function openRawFileCallback(app,serFilePath)
         errordlg('Ошибка открытия файла ser', 'Ошибка');
         return;
     end
-    % Считываем все данные как 32-битные числа
-    dataArray = fread(fid, Inf, 'int32');
+    dataArray = fread(fid, Inf, 'int32'); % Считываем все данные как 32-битные числа
     fclose(fid);
 
-    % Проверяем, что число элементов чётное (так как данные должны быть парами)
     if mod(length(dataArray), 2) ~= 0
         errordlg('Неверный формат данных в файле ser', 'Ошибка');
         return;
@@ -74,7 +69,6 @@ function openRawFileCallback(app,serFilePath)
     % Формируем комплексный массив
     complexData = dataArray(1:2:end) + 1i * dataArray(2:2:end);
 
-    % Проверяем, соответствует ли число элементов указанным размерностям
     if numel(complexData) ~= (dimX * dimY * dimZ)
         errordlg('Размер данных не соответствует заданным размерностям', 'Ошибка');
         return;
@@ -86,18 +80,22 @@ function openRawFileCallback(app,serFilePath)
     % Сохраняем массив в базовом рабочем пространстве под именем папки
     assignin('base', folderName, reshapedData);
 
-    % Обновляем список доступных файлов в FilesListBox
-    if isprop(FilesListBox, 'Items')
-        FilesListBox.Items{end+1} = folderName;
-    else
-        warning('Не удалось обновить список доступных файлов в FilesListBox');
-    end
+    % Создаём структуру с информацией о файле
+    rawFileStruct = struct( ...
+        'filePath', serFilePath, ...               % Путь до файла
+        'listName', folderName, ...                % Название для списка
+        'array', reshapedData, ...                 % Считанный массив
+        'dimensions', [dimX, dimY, dimZ]);          % Размерности
+
+    % Добавляем структуру в список RawFiles
+    app.RawFiles{end+1} = rawFileStruct;
+
+    % Обновляем все списки (например, FilesRawListBox и FilesListBox_Array)
+    updateLists(app);
 end
 
-% --- Субфункция, определённая в том же файле ---
+% --- Субфункция для считывания размерности ---
 function dim = readDimensionFromFile(filename)
-    % Функция считывает из текстового файла строку, содержащую "##$TD="
-    % и возвращает число, записанное после этого текста.
     fid = fopen(filename, 'r');
     if fid == -1
         error(['Невозможно открыть файл: ', filename]);
@@ -107,7 +105,6 @@ function dim = readDimensionFromFile(filename)
         tline = fgetl(fid);
         idx = strfind(tline, '##$TD=');
         if ~isempty(idx)
-            % Извлекаем строку после '##$TD='
             dimStr = strtrim(tline(idx+7:end));
             dim = str2double(dimStr);
             break;

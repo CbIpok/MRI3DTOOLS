@@ -7,7 +7,7 @@ function FFTButtonPushed(app)
     selectedName = app.FilesRawListBox.Value;  % имя выбранного массива
     
     % Получаем новое имя из outputnameEditField
-    newName = app.outputnameEditField.Value;
+    newName = app.outputnameEditField.;
     if isempty(newName)
         uialert(app.UIFigure, 'Введите имя для выходного массива в outputnameEditField.', 'Ошибка');
         return;
@@ -33,16 +33,17 @@ function FFTButtonPushed(app)
     % Сохраняем результат в базовом рабочем пространстве под новым именем
     assignin('base', newName, fftArray);
     
-    % Обновляем список доступных FFT-массивов в FilesListBox_Array
-    if isprop(app.FilesListBox_Array, 'Items')
-        if isempty(app.FilesListBox_Array.Items)
-            app.FilesListBox_Array.Items = {newName};
-        else
-            app.FilesListBox_Array.Items{end+1} = newName;
-        end
-    else
-        warning('FilesListBox_Array не имеет свойства Items.');
-    end
+
+
+    % Создаем структуру для FFT массива
+    fftStruct = struct('filePath', '', ...         % Для FFT можно не хранить путь
+                       'listName', newName, ...
+                       'array', fftArray, ...
+                       'dimensions', size(fftArray));
+    app.FFTArrays{end+1} = fftStruct;
+    
+    % Обновляем все списки через универсальную функцию updateLists
+    updateLists(app);
     
     % Визуализируем спектр: если массив 3D, показываем центральный срез по оси z, иначе весь массив
     figure;
