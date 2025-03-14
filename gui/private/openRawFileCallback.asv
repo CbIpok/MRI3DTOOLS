@@ -89,7 +89,7 @@ function openRawFileCallback(app, serFilePath)
 
     % Добавляем структуру в список RawFiles
     app.RawFiles{end+1} = rawFileStruct;
-    
+    save('myStruct.mat', 'myStruct');
     % Обновляем все списки (например, FilesRawListBox и FilesListBox_Array)
     updateLists(app);
 end
